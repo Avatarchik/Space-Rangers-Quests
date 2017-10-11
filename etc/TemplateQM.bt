@@ -1,0 +1,538 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: VirRus77
+//   Version: 0.0.1
+//   Purpose: 
+//  Category: Games
+// File Mask: *.qm,*.qmm
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+enum <int> TypeTurn
+{
+    TurnUnlim = 1,
+    TurnCount = 2
+};
+
+enum <int> TypeStruct
+{    
+    DefaultNames = 0,
+    Parameters = 1,
+};
+
+enum <byte> Race
+{
+    RACE_MALOQ = 0x01,
+    RACE_PELENG = 0x02,
+    RACE_HUMAN = 0x04,
+    RACE_FAEYAN = 0x08,
+    RACE_GAAL = 0x10,
+    RACE_NONE = 0x40,
+    RACE_ANY = 0xFF
+};
+
+string DrawRace(Race race)
+{
+    local string playerTypeString = "";
+    local string tempString = "";
+
+    if((race & RACE_MALOQ) == RACE_MALOQ)
+    {
+        SPrintf(tempString, "MALOQ (%d)", RACE_MALOQ);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_PELENG) == RACE_PELENG)
+    {
+        SPrintf(tempString, "PELENG (%d)", RACE_PELENG);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_HUMAN) == RACE_HUMAN)
+    {
+        SPrintf(tempString, "HUMAN (%d)", RACE_HUMAN);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_FAEYAN) == RACE_FAEYAN)
+    {
+        SPrintf(tempString, "FAEYAN (%d)", RACE_FAEYAN);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_GAAL) == RACE_GAAL)
+    {
+        SPrintf(tempString, "GAAL (%d)", RACE_GAAL);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_NONE) == RACE_NONE)
+    {
+        SPrintf(tempString, "NONE (%d)", RACE_NONE);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((race & RACE_ANY) == RACE_ANY)
+    {
+        SPrintf(tempString, "ANY (%d)", RACE_ANY);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+
+    return playerTypeString;
+}
+
+enum <byte> PlayerType
+{
+    PLAYER_TRADER = 0x01,
+    PLAYER_PIRATE = 0x02,
+    PLAYER_WARRIOR = 0x04,
+    PLAYER_ANY = 0xFF
+};
+
+string DrawPlayerType(PlayerType playerType)
+{
+    local string playerTypeString = "";
+    local string tempString = "";
+    if((playerType & PLAYER_TRADER) == PLAYER_TRADER)
+    {
+        SPrintf(tempString, "TRADER (%d)", PLAYER_TRADER);
+        playerTypeString = tempString;
+    }
+    if((playerType & PLAYER_PIRATE) == PLAYER_PIRATE)
+    {
+        SPrintf(tempString, "PIRATE (%d)", PLAYER_PIRATE);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    if((playerType & PLAYER_WARRIOR) == PLAYER_WARRIOR)
+    {
+        SPrintf(tempString, "WARRIOR (%d)", PLAYER_WARRIOR);
+        if(WStrlen(playerTypeString) != 0)
+            playerTypeString += " | ";
+        playerTypeString += tempString;
+    }
+    return playerTypeString;
+}
+
+TypeStruct ReadStructType()
+{
+    local int64 position = FTell();
+    local TypeStruct typeStruct = ReadInt();
+    FSeek(position);
+    return typeStruct;
+}
+
+enum <int> HeaderSizeHorizontal
+{
+    HeaderSizeHorizontal_VeryLarge = 0x0A,
+    HeaderSizeHorizontal_Large = 0x0F,
+    HeaderSizeHorizontal_Middle = 0x16,
+    HeaderSizeHorizontal_Small = 0x1E    
+};
+
+enum <int> HeaderSizeVertical
+{
+    HeaderSizeVertical_VeryLarge = 0x08,
+    HeaderSizeVertical_Large = 0x0C,
+    HeaderSizeVertical_Middle = 0x12,
+    HeaderSizeVertical_Small = 0x18    
+};
+
+struct Header
+{
+    local int CountParameters = 0;
+    
+    int Magic <hidden=true>;
+    if(Magic == 0x423a35d4)
+        CountParameters = 96;
+    if(Magic == 0x423a35d3)
+        CountParameters = 48;
+    if(Magic == 0x423a35d2)
+        CountParameters = 24;
+    
+    local int Version = Magic ^ 0x423a35d0;
+
+    Printf("CountParameters=%d\n", CountParameters);
+    int Unknow1 <fgcolor=0x507CFF>;
+    // Раса дающая квест
+    Race races <comment=DrawRace>;
+    // Закончить после завершения квеста
+    // (не возвращаться на планету квестодателя)
+    byte doneImmediately;
+    int Unknow2 <fgcolor=0x507CFF>;
+    //На чьей планете дадут квест
+    Race planetRaces <comment=DrawRace>;
+    int Unknow3 <fgcolor=0x507CFF>;
+    // Тип игрока
+    PlayerType playerTypes <comment=DrawPlayerType>;
+    int Unknow4 <fgcolor=0x507CFF>;
+    // Раса игрока
+    Race playerRaces <comment=DrawRace>;
+    // Как изменится отношение к игроку
+    int relation;
+    int pixelWidth;
+    int pixelHeight;
+    HeaderSizeHorizontal sizeHorizontal;
+    HeaderSizeVertical sizeVertical;
+    int Unknow6 <fgcolor=0x507CFF>;
+    uint pathCount;
+    // Slognost kvesta
+    uint difficulty;
+};
+
+string DrawHeader(Header &heder)
+{
+    local string tempString;
+    SPrintf(tempString, "CountParameters=%d, Version=%d", heder.CountParameters, heder.Version);
+    return tempString;
+};
+
+struct BoolLengthString
+{
+    int existString;
+    int length;                
+    if(existString == 1)
+    {
+        wchar_t chars[length] <optimize=false>;
+    } else if(existString != 0)
+    {
+        Printf("existString != 0 && existString != 1 existString=%d\n", existString);
+        Exit(-1);
+    }
+};
+
+string DrawBoolLengthString(const BoolLengthString &boolLengthString)
+{
+    if(boolLengthString.existString == 0 || boolLengthString.length == 0)
+        return "{null}";
+    local string tempString;
+    //local char tempChars[] = WStringToUTF8(boolLengthString.chars);
+    //local char tempChars[] = boolLengthString.chars;
+    local char tempChars[] = WStringToUTF8(boolLengthString.chars);
+    //SPrintf(tempString, "%s", ConvertString(tempChars, CHARSET_OEM, CHARSET_ANSI));
+    SPrintf(tempString, "%s", tempChars);
+    return tempString;
+};
+
+struct BoolLengthStringUse
+{
+    int existString;
+    if(existString == 1)
+    {
+        int length;        
+        wchar_t chars[length] <optimize=false>;
+    } else if(existString != 0)
+    {
+        Printf("existString != 0 && existString != 1 existString=%d\n", existString);
+        Exit(-1);
+    }
+};
+
+string DrawBoolLengthStringUse(const BoolLengthStringUse &boolLengthString)
+{
+    if(boolLengthString.existString == 0 || boolLengthString.length == 0)
+        return "{null}";
+    local string tempString;
+    //local char tempChars[] = WStringToUTF8(boolLengthString.chars);
+    //local char tempChars[] = boolLengthString.chars;
+    local char tempChars[] = WStringToUTF8(boolLengthString.chars);
+    //SPrintf(tempString, "%s", ConvertString(tempChars, CHARSET_OEM, CHARSET_ANSI));
+    SPrintf(tempString, "%s", tempChars);
+    return tempString;
+};
+
+struct LengthString
+{
+    int length;
+    wchar_t chars[length] <optimize=false>;
+};
+
+string DrawLengthString(const LengthString &lengthString)
+{
+    /*local byte ascii[lengthString.length];
+    ConvertUNICODEToASCII( 
+        lengthString.length,
+        lengthString.chars, 
+        ascii);*/
+    local string tempString;
+    SPrintf(tempString, "%s", lengthString.chars);
+    /*
+    SPrintf(tempString, "%s", StringToUTF8(lengthString.chars, CHARSET_UNICODE));
+    */
+    return tempString;
+};
+
+struct Range
+{
+    int from;
+    int to;
+    BoolLengthStringUse text <comment=DrawBoolLengthStringUse, optimize=false>;
+};
+
+string DrawRange(const Range &range)
+{
+    local string tempString;
+    SPrintf(tempString, "text=%s", DrawBoolLengthStringUse(range.text));
+    return tempString;
+};
+
+enum <byte> ParameterType
+{
+    PARAMETER_NORMAL = 0,
+    PARAMETER_FAIL = 1,
+    PARAMETER_SUCCESS = 2,
+    PARAMETER_DEATH = 3
+};
+
+// structType = 1
+struct Parameter
+{
+    int min;
+    int max;
+    int mid;
+    ParameterType parameterType;
+    int unknow1 <fgcolor=0x507CFF>;
+    byte showOnZero;
+    byte minCritical;
+    byte active;
+    byte rangesNum;
+    byte unknow2[3] <fgcolor=0x507CFF>;
+    byte money;
+    BoolLengthStringUse name <comment=DrawBoolLengthStringUse, optimize=false>;
+    Range ranges[rangesNum] <comment=DrawRange, optimize=false>;
+    BoolLengthStringUse critText <comment=DrawBoolLengthStringUse, optimize=false>;
+    // o_O Tekstom znachenie
+    BoolLengthStringUse starText <comment=DrawBoolLengthStringUse, optimize=false>;
+};
+
+string DrawParameter(const Parameter &parameter)
+{
+    local string tempString;
+    SPrintf(tempString, "text=%s", DrawBoolLengthStringUse(parameter.name));
+    return tempString;
+};
+
+enum <byte> AcceptValueType
+{
+    AcceptValue_Unaccept = 0,
+    AcceptValue_Accept = 1,
+    
+};
+
+struct AcceptValue
+{
+    int countAcceptValues;
+    AcceptValueType acceptValueType;
+    if(countAcceptValues > 0)
+    {
+        int acceptValues[countAcceptValues] <optimize=false>;
+    }
+};
+
+enum <byte> ModValueType
+{
+    AcceptValue_Unmoded = 0,
+    AcceptValue_Moded = 1,
+    
+};
+
+struct ModValue
+{
+    int countModValues;
+    ModValueType acceptValueType;
+    if(countModValues > 0)
+    {
+        int modValues[countModValues] <optimize=false>;
+    }
+};
+
+
+enum <int> VisibilityType
+{
+    VISIBILITY_NO_CHANGE = 0,
+    VISIBILITY_SHOW = 1,
+    VISIBILITY_HIDE = 2,
+};
+
+enum <byte> OperationType
+{
+    OPERATION_NONE = 0,
+    OPERATION_ASSIGN,
+    OPERATION_CHANGE,
+    OPERATION_PERCENT,
+    OPERATION_EXPRESSION
+};
+struct Modifier
+{
+    int unknow1 <fgcolor=0x507CFF>;
+    int rangeFrom;
+    int rangeTo;
+    int value;
+    
+    VisibilityType visibility;
+
+    byte units;
+    byte percent;
+    byte assign;
+    byte expression;
+
+    local OperationType operation = OPERATION_NONE;
+    if (percent)
+        operation = OPERATION_PERCENT;
+    else if (assign)
+        operation = OPERATION_ASSIGN;
+    else if (expression)
+        operation = OPERATION_EXPRESSION;
+    else
+        operation = OPERATION_CHANGE;
+
+    BoolLengthStringUse expression <comment=DrawBoolLengthStringUse, optimize=false>;
+    
+    /*
+    int countIncludeValues;
+    byte isIncludeValues;
+    int includeValues[countIncludeValues];
+
+    int countIncludeMultiples;
+    byte isIncludeMultiples;
+    int includeMultiples[countIncludeMultiples];
+    */
+    AcceptValue acceptValue;
+    //byte unknow2[9]<fgcolor=0x507CFF, optimize=false>;
+    ModValue modValue;
+    BoolLengthStringUse unknow4 <comment=DrawBoolLengthStringUse, fgcolor=0x507CFF, optimize=false>;
+};
+
+string DrawModifier(const Modifier &modifier)
+{
+    local string tempString;
+    SPrintf(tempString, "%d", modifier.value);
+    if(modifier.visibility == VISIBILITY_SHOW)
+        tempString += " (показать)";
+    return tempString;
+}
+
+enum <byte> LocationType
+{
+    LOCATION_NORMAL,
+    LOCATION_START,
+    LOCATION_FAIL,
+    LOCATION_SUCCESS
+};
+
+struct Location (int totalParamCount)
+{
+    int day;
+    int x;
+    int y;
+    int id;
+
+    byte start;
+    byte success;
+    byte fail;
+    
+    local LocationType locationType;
+    if ((start && success) || (start && fail) || (success && fail))
+        locationType = LOCATION_NORMAL;
+    else if (!start && !success && !fail)
+        locationType = LOCATION_NORMAL;
+    else if (start)
+        locationType = LOCATION_START;
+    else if (success)
+        locationType = LOCATION_SUCCESS;
+    else if (fail)
+        locationType = LOCATION_FAIL;
+
+    byte death;
+    if (death)
+        locationType = LOCATION_FAIL;
+
+    byte empty;
+    
+    Modifier modifiers[totalParamCount] <comment=DrawModifier, optimize=false>;
+    // Описания локации 10 о_О
+    BoolLengthStringUse descriptions[10] <comment=DrawBoolLengthStringUse, optimize=false>;
+    
+    byte descriptionExpression;
+    int unknow1 <fgcolor=0x507CFF>;
+    BoolLengthStringUse unknow2[2] <comment=DrawBoolLengthStringUse, fgcolor=0x507CFF, optimize=false>;
+    BoolLengthStringUse expression <comment=DrawBoolLengthStringUse, optimize=false>;
+    
+};
+
+struct Transition (int totalParamCount)
+{
+    double priority;
+    int day;
+    int id;
+    int from;
+    int to;
+    byte unknow1 <fgcolor=0x507CFF>;
+    byte alwaysVisible;
+    int passCount;
+    int position;
+
+    Modifier modifiers[totalParamCount] <comment=DrawModifier, optimize=false>;    
+
+    BoolLengthStringUse globalCondition <comment=DrawBoolLengthStringUse, optimize=false>;
+    BoolLengthStringUse title <comment=DrawBoolLengthStringUse, optimize=false>;
+    BoolLengthStringUse description <comment=DrawBoolLengthStringUse, optimize=false>;
+};
+
+string DrawTransition(const Transition &transition)
+{
+    local string tempString;
+    return DrawBoolLengthStringUse(transition.title);
+}
+
+struct Parameters(const Header &header)
+{
+    Parameter parameters[header.CountParameters] <comment=DrawParameter,optimize=false>;
+};
+
+struct Locations(const Header &header)
+{
+    Location locations(header.CountParameters)[locationCount] <optimize=false>;
+};
+
+struct Transactions(const Header &header, int transitionCount)
+{
+    Transition transitions(header.CountParameters)[transitionCount] <comment=DrawTransition, optimize=false>;
+};
+
+Header header <fgcolor=0x50FF50, bgcolor=0xFF507C, comment=DrawHeader>;
+//Parameter parameters[Header];
+Parameters parameters(header);
+
+BoolLengthStringUse toStar <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse parsec <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse artefact <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse toPlanet <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse date <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse money <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse fromPlanet <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse fromStar <comment=DrawBoolLengthStringUse, optimize=false>;
+BoolLengthStringUse ranger <comment=DrawBoolLengthStringUse, optimize=false>;
+
+int locationCount;
+int transitionCount;
+
+BoolLengthString winnerText <comment=DrawBoolLengthString, optimize=false>;
+BoolLengthString descriptionText <comment=DrawBoolLengthString, optimize=false>;
+BoolLengthStringUse unknownText <comment=DrawBoolLengthStringUse, fgcolor=0x507CFF, optimize=false>;
+/*int unknow1 <fgcolor=0x507CFF>;
+int unknow2 <fgcolor=0x507CFF>;*/
+
+Locations locations(header);
+Transactions transactions(header, transitionCount) <bgcolor=0x98E7E2>;
