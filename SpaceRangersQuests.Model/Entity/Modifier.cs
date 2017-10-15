@@ -58,7 +58,7 @@ namespace SpaceRangersQuests.Model.Entity
         /// <summary>
         /// Для видимости
         /// </summary>
-        public AcceptValue acceptValue;
+        public IncludeValue IncludeValue;
         /// <summary>
         /// Для видимости
         /// </summary>

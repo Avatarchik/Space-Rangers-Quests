@@ -12,7 +12,9 @@ namespace SpaceRangersQuests.Model
     {
         public static Quest Load(Stream stream)
         {
+            
             var quest = new Quest();
+            
 
             quest.header = LoadHeader(stream);
 
@@ -157,7 +159,7 @@ namespace SpaceRangersQuests.Model
             Enumerable.Range(0, Location.CountDescriptions)
                 .ForEach(v => location.descriptions.Add(LoadBoolLengthString(stream)));
 
-            location.descriptionExpression = (byte)stream.ReadByte();
+            location.descriptionExpression = stream.ReadByte() != 0;
             location.UnknownValues.Add(stream.ReadInt32());
             location.unknow2 = LoadBoolLengthString(stream);
             location.UnknownValues.Add(location.unknow2);
@@ -188,7 +190,7 @@ namespace SpaceRangersQuests.Model
             modifier.expression = ReadBool(stream);
 
             modifier.expressionString = LoadBoolLengthString(stream);
-            modifier.acceptValue = LoadAcceptValue(stream);
+            modifier.IncludeValue = LoadAcceptValue(stream);
             modifier.modValue = LoadModValue(stream);
 
             modifier.unknowString = LoadBoolLengthString(stream);
@@ -210,15 +212,15 @@ namespace SpaceRangersQuests.Model
             return modValue;
         }
 
-        private static AcceptValue LoadAcceptValue(Stream stream)
+        private static IncludeValue LoadAcceptValue(Stream stream)
         {
-            var acceptValue = new AcceptValue();
+            var acceptValue = new IncludeValue();
 
-            acceptValue.CountAcceptValues = stream.ReadInt32();
-            acceptValue.AcceptType = (AcceptValueType)stream.ReadByte();
+            acceptValue.CountIncludeValues = stream.ReadInt32();
+            acceptValue.IncludeType = (IncludeValueType)stream.ReadByte();
 
-            Enumerable.Range(0, acceptValue.CountAcceptValues)
-                .ForEach(v => acceptValue.AcceptValues.Add(stream.ReadInt32()));
+            Enumerable.Range(0, acceptValue.CountIncludeValues)
+                .ForEach(v => acceptValue.IncludeValues.Add(stream.ReadInt32()));
 
             return acceptValue;
         }

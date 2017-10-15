@@ -39,6 +39,11 @@ namespace SpaceRangersQuests.Model.Utils
             }
         }
 
+        public static void ForEach<T>(this IEnumerable enumerable, Action<int, T> action)
+        {
+            enumerable.ForEach((T value, int index) => action(index, value));
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             if (action == null)
@@ -58,6 +63,11 @@ namespace SpaceRangersQuests.Model.Utils
             {
                 action(value, index++);
             }
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<int, T> action)
+        {
+            enumerable.ForEach((T value, int index) => action(index, value));
         }
     }
 }

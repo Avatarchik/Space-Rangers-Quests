@@ -5,15 +5,28 @@ using System.Text;
 using SpaceRangersQuests.Model;
 using SpaceRangersQuests.Model.Entity;
 using SpaceRangersQuests.Model.Player;
+#if !NUnitTest
+using System.Reflection.Metadata.Ecma335;
 using Xunit;
+using Xunit.Sdk;
+#else
+using NUnit.Framework;
+#endif
 
 namespace SpaceRangersQuests.Tests
 {
+#if NUnitTest
+    [TestFixture]
+#endif
     public class UnitTestPlay
     {
         private static readonly string RootTestDirectory = UnitTestParameters.RootTestDirectory;
 
+#if !NUnitTest
         [Fact]
+#else
+        [Test]
+#endif
         public void TestPlay()
         {
             var filePath = RootTestDirectory + @"\s_ranger_q\Fishing3.qm";

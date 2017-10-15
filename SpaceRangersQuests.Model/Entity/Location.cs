@@ -74,7 +74,7 @@ namespace SpaceRangersQuests.Model.Entity
         // Описания локации 10 о_О
         public IList<BoolLengthString> descriptions { get; private set; }
 
-        public byte descriptionExpression;
+        public bool descriptionExpression;
         public int unknow1;
         public BoolLengthString unknow2;
         public BoolLengthString unknow3;

@@ -1,16 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceRangersQuests.Model", "SpaceRangersQuests.Model\SpaceRangersQuests.Model.csproj", "{689E1B01-3FA5-4B14-A822-84E23FED3917}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRangersQuests.UI", "SpaceRangersQuests.UI\SpaceRangersQuests.UI.csproj", "{0A3FEEC5-1159-477A-8453-2B9A0BA5A4DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{D3D9D80D-55B1-4678-81D0-6C0117893FED}"
 	ProjectSection(SolutionItems) = preProject
 		etc\TemplateQM.bt = etc\TemplateQM.bt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRangersQuests.Tests", "SpaceRangersQuests.Tests\SpaceRangersQuests.Tests.csproj", "{1A03D4A8-78A3-4D0C-9340-35BE3AD5AE4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRangersQuests.Model", "SpaceRangersQuests.Model\SpaceRangersQuests.Model.csproj", "{E15D7FF6-25D3-475A-BB04-0EE96B345027}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRangersQuests.Tests", "SpaceRangersQuests.Tests\SpaceRangersQuests.Tests.csproj", "{E53E8C51-23F3-41D3-B9BC-AB0348AA3DEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +20,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{689E1B01-3FA5-4B14-A822-84E23FED3917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{689E1B01-3FA5-4B14-A822-84E23FED3917}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{689E1B01-3FA5-4B14-A822-84E23FED3917}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{689E1B01-3FA5-4B14-A822-84E23FED3917}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A03D4A8-78A3-4D0C-9340-35BE3AD5AE4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A03D4A8-78A3-4D0C-9340-35BE3AD5AE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A03D4A8-78A3-4D0C-9340-35BE3AD5AE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A03D4A8-78A3-4D0C-9340-35BE3AD5AE4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A3FEEC5-1159-477A-8453-2B9A0BA5A4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3FEEC5-1159-477A-8453-2B9A0BA5A4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3FEEC5-1159-477A-8453-2B9A0BA5A4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3FEEC5-1159-477A-8453-2B9A0BA5A4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E15D7FF6-25D3-475A-BB04-0EE96B345027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E15D7FF6-25D3-475A-BB04-0EE96B345027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E15D7FF6-25D3-475A-BB04-0EE96B345027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E15D7FF6-25D3-475A-BB04-0EE96B345027}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53E8C51-23F3-41D3-B9BC-AB0348AA3DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53E8C51-23F3-41D3-B9BC-AB0348AA3DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53E8C51-23F3-41D3-B9BC-AB0348AA3DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53E8C51-23F3-41D3-B9BC-AB0348AA3DEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

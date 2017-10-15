@@ -77,7 +77,7 @@ namespace SpaceRangersQuests.Model.Entity
     {
         public bool Use;
         public int Length;
-        public string Text;
+        public string Text { get; set; }
 
         private string DebuggerDisplay
         {
@@ -88,7 +88,7 @@ namespace SpaceRangersQuests.Model.Entity
     /// <summary>
     /// Тип принимаем/не прием значений
     /// </summary>
-    public enum AcceptValueType : byte
+    public enum IncludeValueType : byte
     {
         /// <summary>
         /// Не принимаемые
